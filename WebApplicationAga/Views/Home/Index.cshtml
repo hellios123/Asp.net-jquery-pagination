@@ -1,0 +1,113 @@
+﻿@model IEnumerable<WebApplicationAga.Comment>
+
+@{
+    ViewBag.Title = "Index";
+
+
+}
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+
+
+
+
+<h2>Comments</h2>
+
+<p>
+    @Html.ActionLink("Add your comment", "NewComment")
+</p>
+<table class="table">
+    <tr>
+        <th>
+
+
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Time)
+        </th>
+        <th></th>
+    </tr>
+
+    @{ int m = (int)ViewData["p"]; for (int i = 15 * m; i < Math.Min(Model.ToArray().Length, 15 * m + 15); i++)
+        {
+            string ss = (ViewData[(i > 3 ? (new Random().Next(0, 4)) : i).ToString()]).ToString() + ".ico";
+            Model.ToArray()[i].ImagePath = Model.ToArray()[i].ImagePath.IsEmpty() ? ss : (Model.ToArray()[i].ImagePath + ".ico");
+            <tr>
+                <td>
+                    <img src="~/Images/@Model.ToArray()[i].ImagePath" width="30" height="30" />
+                    @i.
+
+                    @Html.DisplayFor(modelItem => Model.ToArray()[i].Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ToArray()[i].Text)
+                   
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.ToArray()[i].Time)
+                </td>
+                <td></td>
+            </tr>
+        }
+
+
+
+    }
+
+</table>
+
+<span>
+    @{
+        //Pagination
+        float m1 = Model.ToArray().Length / 15; m1 = (Model.ToArray().Length > 15 * m1) ? (m1 + 1) : m1;
+        int x1 = (int)ViewData["p"] - 3;
+        int x2 = (int)ViewData["p"] + 3;
+        if (x1 < 0) { x2 += Math.Abs(x1); }
+        if (x2 > m1) { x1 = x1 - (x2 - (int)m1); x2 = (int)m1; }
+        //System.Diagnostics.Debug.WriteLine("X1:"+x1+",x2:"+x2 + ",xxxxx:" + (int)m1);
+    }
+    <a href="/Home/Index?id=@(0)"
+       class="btn btn-default"><<</a>
+    @if ((int)ViewData["p"] >=1)
+    {
+        <a href="/Home/Index?id=@((int)ViewData["p"] - 1)"
+           class="btn btn-default">Previous</a>}
+    
+    @{ for (int j = 0; j <= m1; j++)
+        {
+            if ((j <= (int)ViewData["p"] && j >= x1) || (j >= (int)ViewData["p"] && j < x2))
+
+            {
+                <a href="/Home/Index?id=@j"
+                   class="btn btn-default xxx ">@(j + 1)</a>}
+
+
+        }
+
+
+    }
+
+    @if ((int)ViewData["p"] < m1 - 1)
+    {
+
+        <a href="/Home/Index?id=@((int)ViewData["p"] + 1)"
+           class="btn btn-default">Next</a>}
+    <a href="/Home/Index?id=@(m1 -1)"
+       class="btn btn-default">>></a>
+</span>
+
+
+<script type="text/javascript" src="~/Jscripts/script1.js">
+
+  
+
+</script>
+
+
+
+
